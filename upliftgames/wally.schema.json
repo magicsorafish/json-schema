@@ -109,7 +109,7 @@
             "patternProperties": {
                 "\\w+": {
                     "type": "string",
-                    "pattern": "\\w+\\/\\w@?(\\d+\\.\\d+\\.\\d)?\\^?"
+                    "pattern": "\\w+\\/\\w@(\\d+\\.\\d+\\.\\d)\\^?"
                 }
             }
         }

@@ -1,0 +1,117 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+        "package": {
+            "type": "object",
+            "properties": {
+                "private": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "name": {
+                    "type": "string",
+                    "pattern": "[A-Za-z_0-9]+\\/[A-Za-z_0-9]+",
+                    "default": "user/repo"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string",
+                    "pattern": "\\d+\\.\\d+\\.\\d",
+                    "default": "0.1.0"
+                },
+                "license": {
+                    "type": "string",
+                    "default": "MIT"
+                },
+                "author": {
+                    "type": "array",
+                    "minItems": 0,
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "realm": {
+                    "enum": [
+                        "shared",
+                        "server"
+                    ]
+                },
+                "registry": {
+                    "type": "string",
+                    "default": "https://github.com/UpliftGames/wally-index",
+                    "format": "hostname"
+                },
+                "homepage": {
+                    "type": "string",
+                    "format": "hostname"
+                },
+                "include": {
+                    "type": "array",
+                    "minItems": 0,
+                    "items": {
+                        "type": "string",
+                        "format": "uri"
+                    }
+                },
+                "exclude": {
+                    "type": "array",
+                    "minItems": 0,
+                    "items": {
+                        "type": "string",
+                        "format": "uri"
+                    }
+                }
+            },
+            "required": [
+                "name",
+                "version",
+                "realm",
+                "registry"
+            ]
+        },
+        "dependencies": {
+            "$ref": "#/definitions/dependency"
+        },
+        "server-dependencies": {
+            "$ref": "#/definitions/dependency"
+        },
+        "dev-dependencies": {
+            "$ref": "#/definitions/dependency"
+        }
+    },
+    "required": [
+        "package"
+    ],
+    "anyOf": [
+        {
+            "required": [
+                "dependencies"
+            ]
+        },
+        {
+            "required": [
+                "server-dependencies"
+            ]
+        },
+        {
+            "required": [
+                "dev-dependencies"
+            ]
+        }
+    ],
+    "definitions": {
+        "dependency": {
+            "type": "object",
+            "minProperties": 0,
+            "patternProperties": {
+                "\\w+": {
+                    "type": "string",
+                    "pattern": "\\w+\\/\\w@?(\\d+\\.\\d+\\.\\d)?\\^?"
+                }
+            }
+        }
+    }
+}

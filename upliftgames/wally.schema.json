@@ -42,11 +42,11 @@
                 "registry": {
                     "type": "string",
                     "default": "https://github.com/UpliftGames/wally-index",
-                    "format": "hostname"
+                    "pattern": "https:[/]{2}\\w+\\.\\w+"
                 },
                 "homepage": {
                     "type": "string",
-                    "format": "hostname"
+                    "pattern": "https:[/]{2}\\w+\\.\\w+"
                 },
                 "include": {
                     "type": "array",

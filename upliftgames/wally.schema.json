@@ -7,27 +7,33 @@
             "properties": {
                 "private": {
                     "type": "boolean",
+                    "description": "Set to true to prevent accidental uploads to the registry",
                     "default": false
                 },
                 "name": {
                     "type": "string",
-                    "pattern": "[A-Za-z_0-9]+\\/[A-Za-z_0-9]+",
+                    "description": "Package names are always \"SCOPE/NAME\"",
+                    "pattern": "^[A-Za-z\\-\\d]+\\/[A-Za-z\\-\\d]+$",
                     "default": "user/repo"
                 },
                 "description": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Used in package listings and search results."
                 },
                 "version": {
                     "type": "string",
-                    "pattern": "\\d+\\.\\d+\\.\\d",
+                    "description": "Versions follow Semantic Versioning.",
+                    "pattern": "^\\d+\\.\\d+\\.\\d+(?:(?:-(?:(?:[A-Za-z\\-]|[\\d])+\\.?)+)|(?:\\+(?:(?:[A-Za-z\\-]|[1-9])+\\.?)+)|(?:-(?:(?:[A-Za-z\\-]|[\\d])+\\.?)+)(?:\\+(?:(?:[A-Za-z\\-]|[1-9])+\\.?)+))$",
                     "default": "0.1.0"
                 },
                 "license": {
                     "type": "string",
+                    "description": "Required for publishing to public registries. Format should be in SPDX License Expression.",
                     "default": "MIT"
                 },
                 "author": {
                     "type": "array",
+                    "description": "The list of authors who worked on the package.",
                     "minItems": 0,
                     "items": {
                         "type": "string"
@@ -37,35 +43,41 @@
                     "enum": [
                         "shared",
                         "server"
-                    ]
+                    ],
+                    "description": "Packages belong to a \"realm\", which help prevent using code in the wrong context."
                 },
                 "registry": {
                     "type": "string",
+                    "description": "Can be used to split public/private registries to keep internal code private and isolated",
                     "default": "https://github.com/UpliftGames/wally-index",
-                    "pattern": "https:[/]{2}\\w+\\.\\w+"
+                    "pattern": "^https:\\/{2}.+\\..+\\/?.*$"
                 },
                 "repository": {
                     "type": "string",
-                    "pattern": "https:[/]{2}\\w+\\.\\w+"
+                    "description": "Wally will display this link on the package's page on wally.run",
+                    "pattern": "^https:\\/{2}.+\\..+\\/?.*$"
                 },
                 "homepage": {
                     "type": "string",
-                    "pattern": "https:[/]{2}\\w+\\.\\w+"
+                    "description": "Wally will display this link on the package's page on wally.run. Should be used for dedicated websites other than the source repository",
+                    "pattern": "^https:\\/{2}.+\\..+\\/?.*$"
                 },
                 "include": {
                     "type": "array",
+                    "description": "An inclusion set of files to publish to the registry",
                     "minItems": 0,
                     "items": {
                         "type": "string",
-                        "format": "uri"
+                        "pattern": "^([\\w\\d *-.]+[\/\\])*?[\\w\\d *-.]+$"
                     }
                 },
                 "exclude": {
                     "type": "array",
+                    "description": "An exclusion set of files to not publish to the registry. By default, Wally respects .gitignore, file entries that are marked hidden, or other packages found in the registry",
                     "minItems": 0,
                     "items": {
                         "type": "string",
-                        "format": "uri"
+                        "pattern": "^([\\w\\d *-.]+[\/\\])*?[\\w\\d *-.]+$"
                     }
                 }
             },
@@ -77,13 +89,16 @@
             ]
         },
         "dependencies": {
-            "$ref": "#/definitions/dependency"
+            "$ref": "#/definitions/dependency",
+            "description": "Replicated on client-server. Generates a folder called Packages"
         },
         "server-dependencies": {
-            "$ref": "#/definitions/dependency"
+            "$ref": "#/definitions/dependency",
+            "description": "Replicated on server only. Generates a folder called ServerPackages"
         },
         "dev-dependencies": {
-            "$ref": "#/definitions/dependency"
+            "$ref": "#/definitions/dependency",
+            "description": "Replicated on client-server. Generates a folder called DevPackages"
         }
     },
     "required": [

@@ -44,6 +44,10 @@
                     "default": "https://github.com/UpliftGames/wally-index",
                     "pattern": "https:[/]{2}\\w+\\.\\w+"
                 },
+                "repository": {
+                    "type": "string",
+                    "pattern": "https:[/]{2}\\w+\\.\\w+"
+                },
                 "homepage": {
                     "type": "string",
                     "pattern": "https:[/]{2}\\w+\\.\\w+"
